@@ -18,7 +18,7 @@
   <h3>Pilih Barang</h3>
 
   <table class="table table-striped-columns table-bordered border-success" id="daftar-barang">
-    <thead class="table-success">
+    <thead class="table-danger">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Item</th>
@@ -32,7 +32,7 @@
 
   <h3>Keranjang Belanja</h3>
   <table class="table table-striped-columns table-bordered border-success" id="daftar-keranjang">
-    <thead class="table-success">
+    <thead class="table-danger">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Item</th>
@@ -87,6 +87,8 @@
          let daftarBarangDiKeranjang = await ambilDaftarBarangDiKeranjang()
          let nomorKeranjang = 1
          let totalKeranjang = 0 
+        
+        elemenDaftarBarangDiKeranjang.empty()
          
          daftarBarangDiKeranjang.forEach((data) => {
            elemenDaftarBarangDiKeranjang.append(
