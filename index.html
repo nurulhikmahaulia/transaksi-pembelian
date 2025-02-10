@@ -50,39 +50,8 @@
 
 //menampilkan daftar barang
     $(document).ready(async function() {
-      let elemenDaftarBarang = $("#daftar-barang > tbody");
-      let daftarBarang = await ambilDaftarBarang();
-
-      let nomor = 1
-      let total = 0
-
-      daftarBarang.forEach((data) => {
-        elemenDaftarBarang.append(
-          "<tr>" +
-          "<td>" + nomor + "</td>" +
-          "<td>" + data.item + "</td>" +
-          "<td>" + data.harga + "</td>" +
-          "<td>" + "<a href='#' class='me-2 link-keranjang' data='" + data.id + "' data-nama='" + data.item + "' data-harga='" + data.harga + "'><i class='bi bi-cart-plus'></i></a>" + "</td>" +
-          "</tr>"
-        )
-
-        nomor = nomor + 1
-      })
-
-
-      $(".link-keranjang").click(async function() {
-        let idbarang = $(this).attr('data')
-        let nama = $(this).attr('data-nama')
-        let harga = $(this).attr('data-harga')
-        let jumlah = 1
-        let idpelanggan = 'prosee'
-        let namapelanggan = 'proses'
-
-        await tambahBarangKeKeranjang(idbarang, nama, harga, jumlah, idpelanggan, namapelanggan)
-
-        console.log('menambah barang ke keranjang')
-        
-         //menampilkan data barang yang ada di keranjang
+      async function tampilBarangDiKeranjang() {
+     //menampilkan data barang yang ada di keranjang
          let elemenDaftarBarangDiKeranjang = $("#daftar-keranjang > tbody")
          let daftarBarangDiKeranjang = await ambilDaftarBarangDiKeranjang()
          let nomorKeranjang = 1
@@ -104,7 +73,44 @@
             nomorKeranjang++
          })
          // selesai menampilkan barang di keranjang
-         
+      }
+      
+      // menampilkan daftar barang di inventory
+      let elemenDaftarBarang = $("#daftar-barang > tbody");
+      let daftarBarang = await ambilDaftarBarang();
+
+      let nomor = 1
+      let total = 0
+
+      daftarBarang.forEach((data) => {
+        elemenDaftarBarang.append(
+          "<tr>" +
+          "<td>" + nomor + "</td>" +
+          "<td>" + data.item + "</td>" +
+          "<td>" + data.harga + "</td>" +
+          "<td>" + "<a href='#' class='me-2 link-keranjang' data='" + data.id + "' data-nama='" + data.item + "' data-harga='" + data.harga + "'><i class='bi bi-cart-plus'></i></a>" + "</td>" +
+          "</tr>"
+        )
+
+        nomor = nomor + 1
+      })
+      
+   // selesai menampilkan barang di keranjang
+ await tampilBarangDiKeranjang()
+ 
+      $(".link-keranjang").click(async function() {
+        let idbarang = $(this).attr('data')
+        let nama = $(this).attr('data-nama')
+        let harga = $(this).attr('data-harga')
+        let jumlah = 1
+        let idpelanggan = 'prosee'
+        let namapelanggan = 'proses'
+
+        await tambahBarangKeKeranjang(idbarang, nama, harga, jumlah, idpelanggan, namapelanggan)
+
+        console.log('menambah barang ke keranjang')
+        
+   await tampilBarangDiKeranjang()
       })
     })
   </script>
