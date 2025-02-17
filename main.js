@@ -9,7 +9,8 @@ import {
   deleteDoc,
   updateDoc,
   query,
-  orderBy
+  orderBy,
+  where
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -55,8 +56,28 @@ export async function tambahBarangKeKeranjang(
   namapelanggan
 ) {
   try {
-    // Menyimpan data ke collection transaksi 
-    const refDokumen = await addDoc(collection(basisdata, "transaksi"), {
+    // periksa apakah idbarang sudah ada di collection transaksi?
+    // mengambil data di seluruh collection transaksi
+    let refDokumen = collection(basisdata, "transaksi")
+    
+    
+    // membuat query untuk mencari data berdasarkan idbarang
+    let queryBarang = query(refDokumen, where("idbarang", "==", idbarang))
+    
+    let snapshotBarang = await getDocs(queryBarang)
+    let jumlahRecord = 0
+    let udtransaksi = ''
+    let jumlahSebelumnya = 0
+    
+    snapshotBarang.forEach((dokumen) => {
+      jumlahRecord++
+      idtransaksi = dokumen.id
+      jumlahSebelumnya = dokumen.data().jumlah
+    })
+    
+    if (jumlahRecord == 0) {
+        // kalau belum ada, tambahkan langsung ke collection
+     const refDokumen = await addDoc(collection(basisdata, "transaksi"), {
       idbarang: idbarang,
       nama: nama,
       harga: harga,
@@ -64,7 +85,11 @@ export async function tambahBarangKeKeranjang(
       idpelanggan: idpelanggan,
       namapelanggan: namapelanggan
       })
-   
+    } else if (jumlahRecord == 1) {
+      // kalau sudah ada, tambahkan jumlahnya saja
+      jumlahSebelumnya++
+      await updateDoc(doc(basisdata, "transaksi", idtransaksi), {jumlah:jumlahSebelumnya })
+    }
   
     // Menampilkan pesan berhasil
     console.log("Berhasil menyimpan keranjang")
