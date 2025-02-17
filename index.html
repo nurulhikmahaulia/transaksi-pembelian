@@ -46,7 +46,7 @@
   </table>
 
   <script type="module">
-    import { ambilDaftarBarang, tambahBarangKeKeranjang, ambilDaftarBarangDiKeranjang } from './main.js';
+    import { ambilDaftarBarang, tambahBarangKeKeranjang, ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang } from './main.js';
 
 //menampilkan daftar barang
     $(document).ready(async function() {
@@ -66,7 +66,7 @@
              "<td>" + data.nama + "</td>" +
              "<td>" + data.harga + "</td>" +
              "<td>" + data.jumlah + "</td>" +
-             "<td>" + "<i class='bi bi-trash'></i>" + "</td>" +
+             "<td>" + "<a href='#' class='link-hapus' data='" + data.id +"'><i class='bi bi-trash'></i></a>" + "</td>" +
              "</tr>"
             )
             
@@ -94,7 +94,7 @@
 
         nomor = nomor + 1
       })
-      
+       
    // selesai menampilkan barang di keranjang
  await tampilBarangDiKeranjang()
  
@@ -111,6 +111,13 @@
         console.log('menambah barang ke keranjang')
         
    await tampilBarangDiKeranjang()
+      })
+      
+      // menghapus item dari keranjang
+      $(".link-hapus").click(async function() {
+        await hapusBarangDariKeranjang($(this).attr('data'))
+    
+    // refres 
       })
     })
   </script>

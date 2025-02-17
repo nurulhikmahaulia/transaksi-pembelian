@@ -90,8 +90,6 @@ export async function tambahBarangKeKeranjang(
       jumlahSebelumnya++
       await updateDoc(doc(basisdata, "transaksi", idtransaksi), {jumlah:jumlahSebelumnya })
     }
-    
-    
   
     // Menampilkan pesan berhasil
     console.log("Berhasil menyimpan keranjang")
@@ -119,4 +117,7 @@ export async function ambilDaftarBarangDiKeranjang() {
     })
   })
     return hasilKueri;
+}
+export async function hapusBarangDariKeranjang(id) {
+  await deleteDoc(doc(basisdata, "transaksi", id))
 }
