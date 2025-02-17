@@ -66,7 +66,7 @@ export async function tambahBarangKeKeranjang(
     
     let snapshotBarang = await getDocs(queryBarang)
     let jumlahRecord = 0
-    let udtransaksi = ''
+    let idtransaksi = ''
     let jumlahSebelumnya = 0
     
     snapshotBarang.forEach((dokumen) => {
@@ -90,6 +90,8 @@ export async function tambahBarangKeKeranjang(
       jumlahSebelumnya++
       await updateDoc(doc(basisdata, "transaksi", idtransaksi), {jumlah:jumlahSebelumnya })
     }
+    
+    
   
     // Menampilkan pesan berhasil
     console.log("Berhasil menyimpan keranjang")
