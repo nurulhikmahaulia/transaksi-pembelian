@@ -38,8 +38,8 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nama</th>
-        <th scope="col">No HP</th>
         <th scope="col">Alamat</th>
+        <th scope="col">No HP</th>
         <th scope="col">Aksi</th>
       </tr>
     </thead>
@@ -48,7 +48,7 @@
   </table>
   
   <script type="module">
-  import { ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang } from './main.js';
+  import { ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang, ambilDaftarPelanggan } from './main.js';
   
     $(document).ready(async function() {
             async function tampilBarangDiKeranjang() {
@@ -85,6 +85,29 @@
     // refres 
     location.reload()
       })
+      
+      
+      let elemenDaftarPelanggan = $("#daftar-pelanggan > tbody");
+          let daftarPelanggan = await ambilDaftarPelanggan();
+          
+       
+          let nomor = 1
+          let total = 0
+          daftarPelanggan.forEach((data) => {
+            elemenDaftarPelanggan.append(
+              "<tr>" +
+               "<td>" +  nomor + "</td>" +
+               "<td>" + data.nama + "</td>" +
+               "<td>" + data.alamat + "</td>" +
+               "<td>" + data.nohape + "</td>" +
+               "<td>" + "<button class='btn btn-danger tombol-pilih' data='" +data.id + "'>pilih</button> "  + "</td>" +
+              "</tr>"
+              )
+              nomor = nomor + 1 
+              
+              $('#total').html("Total Pelanggan :" + (nomor - 1))
+          })
+           
     })
   </script>
 </body>
