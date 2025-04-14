@@ -171,8 +171,7 @@ export async function ubahBarangProsesDiKeranjang(idpelanggan, namapelanggan) {
   
   let snapshotBarang = await getDocs(queryBarangProses)
   snapshotBarang.forEach ((dokumen) => {
-    await updateDoc(
-    doc(basisdata, "transaksi", dokumen.id),
+    await updateDoc(doc(basisdata, "transaksi", dokumen.id),
    { idpelanggan: idpelanggan, namapelanggan: namapelanggan }
     )
   })
