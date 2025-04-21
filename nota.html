@@ -17,21 +17,56 @@
 
   <h3>Nota Pembelian atas nama <span id="namapelanggan"></span></h3>
   
+  <!-- tampilkan tabel daftar barang di collection transaksi -->
+  <table class="table table-striped-columns table-bordered border-success" id="daftar-keranjang">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item</th>
+        <th scope="col">Harga</th>
+        <th scope="col">Jumlah</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
   <script type="module">
-  // import fungsi yang diperlukan
-  import { ambilPelanggan } from './main.js'
-  
-  $(document).ready(async function() {
-    const queryString = window.location.search
-    const parameterURL = new URLSearchParams(queryString)
-    const id = parameterURL.get('id')
+    // impor fungsi yang diperlukan 
+    import { ambilPelanggan, daftarBarangNotaPelanggan } from './main.js'
     
-      // tampilkan nama pelanggan
-    const pelanggan = await ambilPelanggan(id)
-    $("#namapelanggan").html(pelanggan.nama)
-    
-  })
-
+    $(document).ready(async function() {
+      const queryString = window.location.search
+      const parameterURL = new URLSearchParams(queryString)
+      const id = parameterURL.get('id')
+      
+      // tampilkan nama pelanggan 
+      const pelanggan = await ambilPelanggan(id)
+      $("#namapelanggan").html(pelanggan.nama)
+      
+      //menampilkan  barang yang ada di keranjang 
+      let elemenDaftarBarangDiKeranjang = $("#daftar-keranjang > tbody")
+      let daftarBarangDiKeranjang = await daftarBarangNotaPelanggan(id)
+      let nomorKeranjang = 1
+      let totalKeranjang = 0
+      
+      //mengosongkan daftar barang sebelumnya 
+      elemenDaftarBarangDiKeranjang.empty()
+      
+      daftarBarangDiKeranjang.forEach((data) => {
+        elemenDaftarBarangDiKeranjang.append(
+          "<tr>" +
+          "<td>" + nomorKeranjang + "</td>" +
+          "<td>" + data.nama + "</td>" +
+          "<td>" + data.harga + "</td>" +
+          "<td>" + data.jumlah + "</td>" +
+          "<td>" + (data.harga * data.jumlah) + "</td>" +
+          "</tr>"
+        )
+        nomorKeranjang++
+      })
+      // selesai menampilkan barang di keranjang 
+    })
   </script>
 </body>
 

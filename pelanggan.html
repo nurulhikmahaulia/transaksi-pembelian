@@ -47,88 +47,89 @@
     </tbody>
   </table>
   
-  <script type="module">
-  import { ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang, ambilDaftarPelanggan, ambilBarangProsesDiKeranjang, ubahBarangProsesDiKeranjang } from './main.js';
-  
+<script type="module">
+    import { ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang, ambilDaftarPelanggan, ambilBarangProsesDiKeranjang, ubahBarangProsesDikeranjang } from './main.js';
+    
     $(document).ready(async function() {
-            async function tampilBarangDiKeranjang() {
-     //menampilkan data barang yang ada di keranjang
-         let elemenDaftarBarangDiKeranjang = $("#daftar-keranjang > tbody")
-         let daftarBarangDiKeranjang = await ambilDaftarBarangDiKeranjang()
-         let nomorKeranjang = 1
-         let totalKeranjang = 0 
+      async function tampilBarangDiKeranjang() {
+        //menampilkan  barang yang ada di keranjang 
+        let elemenDaftarBarangDiKeranjang = $("#daftar-keranjang > tbody")
+        let daftarBarangDiKeranjang = await ambilDaftarBarangDiKeranjang()
+        let nomorKeranjang = 1
+        let totalKeranjang = 0
         
+        //mengosongkan daftar barang sebelumnya 
         elemenDaftarBarangDiKeranjang.empty()
-         
-         daftarBarangDiKeranjang.forEach((data) => {
-           elemenDaftarBarangDiKeranjang.append(
-             "<tr>" + 
-             "<td>" + nomorKeranjang + "</td>" +
-             "<td>" + data.nama + "</td>" +
-             "<td>" + data.harga + "</td>" +
-             "<td>" + data.jumlah + "</td>" +
-             "<td>" + "<a href='#' class='link-hapus' data='" + data.id +"'><i class='bi bi-trash'></i></a>" + "</td>" +
-             "</tr>"
-            )
-            
-            nomorKeranjang++
-         })
-         // selesai menampilkan barang di keranjang
+        
+        daftarBarangDiKeranjang.forEach((data) => {
+          elemenDaftarBarangDiKeranjang.append(
+            "<tr>" +
+            "<td>" + nomorKeranjang + "</td>" +
+            "<td>" + data.nama + "</td>" +
+            "<td>" + data.harga + "</td>" +
+            "<td>" + data.jumlah + "</td>" +
+            "<td>" + "<a href='#' class='link-hapus' data='" + data.id + "'><i class='bi bi-trash'></i></a>" + "</td>" +
+            "</tr>"
+          )
+          nomorKeranjang++
+        })
+        // selesai menampilkan barang di keranjang 
       }
       
       await tampilBarangDiKeranjang()
       
-     // menghapus item dari keranjang
-    $("#daftar-keranjang > tbody").on('click', '.link-hapus', async function() {
-      await hapusBarangDariKeranjang($(this).attr('data'))
-    
-    // refres 
-    location.reload()
+      // menghapus item dari keranjang
+      $("#daftar-keranjang > tbody").on('click', '.link-hapus', async function() {
+        await hapusBarangDariKeranjang($(this).attr('data'))
+        
+        // refres 
+        location.reload()
       })
       
       
       let elemenDaftarPelanggan = $("#daftar-pelanggan > tbody");
-          let daftarPelanggan = await ambilDaftarPelanggan();
-          
-       
-          let nomor = 1
-          let total = 0
-          daftarPelanggan.forEach((data) => {
-            elemenDaftarPelanggan.append(
-              "<tr>" +
-               "<td>" +  nomor + "</td>" +
-               "<td>" + data.nama + "</td>" +
-               "<td>" + data.alamat + "</td>" +
-               "<td>" + data.nohape + "</td>" +
-               "<td>" + "<button class='btn btn-danger tombol-pilih' data='" +data.id + "' data-nama='" + data.nama + "'>pilih</button> "  + "</td>" +
-              "</tr>"
-              )
-              nomor = nomor + 1 
-              
-              $('#total').html("Total Pelanggan :" + (nomor - 1))
-          })
-    $(".tombol-pilih").click(async function() {
-      // mengambil data pelanggan
-      let idpelanggan = $(this).attr('data')
-      let namapelanggan = $(this).attr('data-nama')
+      let daftarPelanggan = await ambilDaftarPelanggan();
       
-      console.log(idpelanggan + ", " + namapelanggan)
       
-      // cari data collection transaksi yang id dan nama pelanggan = proses
-      let daftarbarangproses = await ambilBarangProsesDiKeranjang()
-      
-      daftarbarangproses.forEach(async(data) => {
-        console.log(data.nama)
+      let nomor = 1
+      let total = 0
+      daftarPelanggan.forEach((data) => {
+        elemenDaftarPelanggan.append(
+          "<tr>" +
+          "<td>" + nomor + "</td>" +
+          "<td>" + data.nama + "</td>" +
+          "<td>" + data.alamat + "</td>" +
+          "<td>" + data.nohape + "</td>" +
+          "<td>" + "<button class='btn btn-danger tombol-pilih' data='" + data.id + "' data-nama='" + data.nama + "'>pilih</button> " + "</td>" +
+          "</tr>"
+        )
+        nomor = nomor + 1
         
-     await ubahBarangProsesDiKeranjang(data.id, idpelanggan, namapelanggan)
+        $('#total').html("Total Pelanggan :" + (nomor - 1))
       })
-      
-   
-      // pergi ke halaman cetak nota
-      let url = 'nota.html?id=' + idpelanggan
-      location.replace(url)
-    })    
-    // selesai memilih pelanggaan
+      $(".tombol-pilih").click(async function() {
+        // mengambil data pelanggan
+        let idpelanggan = $(this).attr('data')
+        let namapelanggan = $(this).attr('data-nama')
+        
+        console.log(idpelanggan + ", " + namapelanggan)
+        
+        // cari data collection transaksi yang id dan nama pelanggan = proses
+        let daftarbarangproses = await ambilBarangProsesDiKeranjang()
+        
+        daftarbarangproses.forEach(async (data) => {
+          console.log(data.nama)
+          await ubahBarangProsesDikeranjang(data.id, idpelanggan, namapelanggan)
+          
+        })
+        
+        
+        
+        // pergi ke halaman cetak nota
+        let url = 'nota.html?id=' + idpelanggan
+        location.replace(url)
+      })
+      // selesai memilih pelanggaan
     })
   </script>
 </body>
