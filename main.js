@@ -151,6 +151,7 @@ export async function ambilBarangProsesDiKeranjang() {
   let hasilKueri = []
   snapshotBarang.forEach((dokumen) => {
     hasilKueri.push({
+      id: dokumen.id,
       nama: dokumen.data().nama,
       jumlah: dokumen.data().jumlah,
       idpelanggan: dokumen.data().idpelanggan,
@@ -166,7 +167,6 @@ export async function ambilBarangProsesDiKeranjang() {
 export async function ubahBarangProsesDikeranjang(id, idpelanggan, namapelanggan) {
   
   await updateDoc(doc(basisdata, "transaksi", id), { idpelanggan: idpelanggan, namapelanggan: namapelanggan }
-    
   )
 }
 

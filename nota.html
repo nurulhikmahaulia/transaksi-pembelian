@@ -31,6 +31,12 @@
     <tbody>
     </tbody>
   </table>
+  
+<h4>Grand Total : <span id="total"></span></h4>
+  
+  <button class="btn btn-success" id="cetak">Cetak Nota</button>
+  
+  
   <script type="module">
     // impor fungsi yang diperlukan 
     import { ambilPelanggan, daftarBarangNotaPelanggan } from './main.js'
@@ -64,8 +70,11 @@
           "</tr>"
         )
         nomorKeranjang++
+        totalKeranjang = totalKeranjang + (data.harga + data.jumlah)
       })
       // selesai menampilkan barang di keranjang 
+      
+      $('#total').html(totalKeranjang)
     })
   </script>
 </body>

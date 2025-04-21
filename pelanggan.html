@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
+  
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
@@ -16,8 +16,8 @@
   <h1 class="text-center">Toko Incer</h1>
   
   <a href="index.html">Back to Daftar Barang</a>
-    <h3>Keranjang Belanja</h3>
-    
+  <h3>Keranjang Belanja</h3>
+  
   <table class="table table-striped-columns table-bordered border-success" id="daftar-keranjang">
     <thead class="table-danger">
       <tr>
@@ -33,7 +33,7 @@
   </table>
   
   <h3>Daftar Pelanggan</h3>
-    <table class="table table-striped-columns table-bordered border-success" id="daftar-pelanggan">
+  <table class="table table-striped-columns table-bordered border-success" id="daftar-pelanggan">
     <thead class="table-primary">
       <tr>
         <th scope="col">#</th>
@@ -47,7 +47,9 @@
     </tbody>
   </table>
   
-<script type="module">
+  
+  
+  <script type="module">
     import { ambilDaftarBarangDiKeranjang, hapusBarangDariKeranjang, ambilDaftarPelanggan, ambilBarangProsesDiKeranjang, ubahBarangProsesDikeranjang } from './main.js';
     
     $(document).ready(async function() {
@@ -107,6 +109,7 @@
         
         $('#total').html("Total Pelanggan :" + (nomor - 1))
       })
+      
       $(".tombol-pilih").click(async function() {
         // mengambil data pelanggan
         let idpelanggan = $(this).attr('data')
@@ -118,7 +121,8 @@
         let daftarbarangproses = await ambilBarangProsesDiKeranjang()
         
         daftarbarangproses.forEach(async (data) => {
-          console.log(data.nama)
+          console.log(data.id)
+          
           await ubahBarangProsesDikeranjang(data.id, idpelanggan, namapelanggan)
           
         })
